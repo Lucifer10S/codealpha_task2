@@ -1,0 +1,70 @@
+class Stock:
+    def __init__(self, symbol, quantity, purchase_price, current_price):
+        self.symbol = symbol
+        self.quantity = quantity
+        self.purchase_price = purchase_price
+        self.current_price = current_price
+
+    def get_profit_loss(self):
+        return (self.current_price - self.purchase_price) * self.quantity
+
+    def get_total_value(self):
+        return self.current_price * self.quantity
+
+
+class Portfolio:
+    def __init__(self):
+        self.stocks = []
+
+    def add_stock(self, symbol, quantity, purchase_price, current_price):
+        stock = Stock(symbol, quantity, purchase_price, current_price)
+        self.stocks.append(stock)
+
+    def display_portfolio(self):
+        print(f"\n{'Symbol':<10}{'Quantity':<10}{'Purchase Price':<15}{'Current Price':<15}{'Profit/Loss':<15}{'Total Value':<15}")
+        for stock in self.stocks:
+            profit_loss = stock.get_profit_loss()
+            total_value = stock.get_total_value()
+            print(f"{stock.symbol:<10}{stock.quantity:<10}{stock.purchase_price:<15}{stock.current_price:<15}{profit_loss:<15}{total_value:<15}")
+
+    def calculate_total_profit_loss(self):
+        total = 0
+        for stock in self.stocks:
+            total += stock.get_profit_loss()
+        return total
+
+
+def main():
+    portfolio = Portfolio()
+
+    while True:
+        print("\n1. Add Stock")
+        print("2. View Portfolio")
+        print("3. View Total Profit/Loss")
+        print("4. Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            symbol = input("Enter stock symbol: ").upper()
+            quantity = int(input("Enter quantity of stocks: "))
+            purchase_price = float(input("Enter purchase price per stock: "))
+            current_price = float(input("Enter current price per stock: "))
+            portfolio.add_stock(symbol, quantity, purchase_price, current_price)
+
+        elif choice == "2":
+            portfolio.display_portfolio()
+
+        elif choice == "3":
+            total_profit_loss = portfolio.calculate_total_profit_loss()
+            print(f"\nTotal Profit/Loss: {total_profit_loss}")
+
+        elif choice == "4":
+            print("Exiting the Stock Portfolio Tracker.")
+            break
+
+        else:
+            print("Invalid choice, please try again.")
+
+
+if __name__ == "__main__":
+    main()
